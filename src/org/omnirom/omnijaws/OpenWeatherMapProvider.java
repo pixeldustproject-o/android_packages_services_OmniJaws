@@ -96,6 +96,9 @@ public class OpenWeatherMapProvider extends AbstractWeatherProvider {
     }
 
     private WeatherInfo handleWeatherRequest(String selection, boolean metric) {
+        if (getAPIKey() == null) {
+            return null;
+        }
         String units = metric ? "metric" : "imperial";
         String locale = getLanguageCode();
         String conditionUrl = String.format(Locale.US, URL_WEATHER, selection, units, locale, getAPIKey());
@@ -328,7 +331,7 @@ public class OpenWeatherMapProvider extends AbstractWeatherProvider {
     }
 
     private String getAPIKey() {
-        return mContext.getResources().getString(R.string.owm_api_key, API_KEY);
+        return mContext.getResources().getString(R.string.owm_api_key, null);
     }
 
     public boolean shouldRetry() {
